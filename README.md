@@ -1,6 +1,7 @@
 # 🌩️ CloudGuard360
 
-**CloudGuard360** is a real-time, cloud usage and billing monitoring dashboard built using AWS Lambda, API Gateway, and a modern React frontend. It helps you visualize AWS service usage, track daily billing trends, and prepare for cost optimization — all in one sleek dashboard.
+**CloudGuard360** CloudGuard360 is a real-time, cloud usage and billing monitoring dashboard built using AWS Lambda, API Gateway, and a modern React frontend. It helps you visualize AWS service usage, track daily billing trends, forecast upcoming cloud costs using lightweight ML in Lambda, and prepare for cost optimization — all in one sleek dashboard.
+
 
 > 🔒 Think of it as your personal AWS billing and usage control tower.
 
@@ -31,7 +32,7 @@
 | 🛑 Usage Blind Spots        | • Added a **real-time usage table** showing EC2 vCPU, S3 GB, and CloudWatch alarm count (mocked) <br>• All usage pulled via a centralized Lambda |
 | 🖼️ UI Inaccessibility      | • Built a **fully custom React dashboard** using Tailwind CSS <br>• Includes cards, tables, and charts with responsive layout              |
 | 🔧 Complex Billing APIs     | • Wrapped complex AWS Cost Explorer logic inside Lambda <br>• Handled auth, pagination, and formatting — exposed via simple `/data` API   |
-| 🌐 CORS / API Access        | • Configured API Gateway with **CORS headers** <br>• Enabled secure frontend-backend communication without exposing credentials            |
+| 🌐 API Access               | • Configured API Gateway with **CORS headers** <br>• Enabled secure frontend-backend communication without exposing credentials            |
 | 🧪 Fake vs Real Data        | • Dashboard shows **real billing data** directly from AWS Cost Explorer <br>• Usage stats shown with placeholder logic for expandability     |
 | 🗃️ Disjointed Interfaces   | • Unified **billing + usage + infrastructure metrics** in a single-pane dashboard <br>• No need to log into AWS console for summaries      |
 | 📈 Forecasting Blind Spot   | • Created forecasting-ready pipeline by exporting S3 usage to CSV <br>• Integrated with SageMaker for **cost prediction using LSTM**      |
@@ -74,21 +75,25 @@ This is how the entire pipeline flows — from cloud data collection to frontend
   - Calls **AWS Cost Explorer** to fetch **real-time billing data** for the last 60 days
   - Optionally adds usage metrics (e.g., EC2 instances, S3 storage, CloudWatch alarms)
   - Returns all data as structured JSON to the frontend
+![  Aws-Lamda](workflow.png)
 
 - 🌐 **API Gateway (REST)**  
   Serves as the public interface for the Lambda backend.  
   - Exposes a secure, rate-limited `/data` endpoint
   - Includes **CORS configuration** to allow safe calls from any verified frontend
   - Ensures only legitimate requests hit the Lambda function
+![  API-GATEWAY](.png)
 
 - 🔐 **IAM Roles & Permissions**  
   Lambda is attached to **scoped IAM roles** that only allow it to call Cost Explorer and CloudWatch.  
   No secrets are ever stored or exposed in the frontend — it's all handled securely via AWS.
+![  IAM-ROLES](wo.png)
 
-- 📦 **Amazon S3 (Optional)**  
+- 📦 **Amazon S3**  
   Used to:
   - Host the static React frontend (alternative to GitHub Pages)
   - Store CSV logs or forecasting results exported from Lambda or SageMaker
+![  S3-bucket](.png)
 
 
  **📉 AI-Powered Forecasting Engine**
@@ -96,6 +101,7 @@ This is how the entire pipeline flows — from cloud data collection to frontend
 - ⚙️ **Serverless Python Forecasting** — Built in **VS Code** and deployed to **AWS Lambda** using **NumPy** and **Scikit-learn** to predict billing trends without SageMaker.
 - 📆 **Flexible Triggers** — Runs on-demand via **API Gateway** or scheduled with **EventBridge** for auto-updated cost forecasts.
 - 📊 **Output Ready** — Forecasted data is returned as JSON, and optionally stored in **S3** or **DynamoDB** for dashboards.
+![  Forecasting](.png)
 
 
 ### 🌍 Multi-Cloud Ready (GCP Support)
@@ -113,11 +119,13 @@ This is how the entire pipeline flows — from cloud data collection to frontend
   The UI is built with a clean, responsive design:
   - Mobile-ready layout using Tailwind grid and spacing
   - Custom components like `SummaryCard`, `UsageTable`, and `AnalyticsChart`
+![  Visualization](workfw.png)
 
 - 📈 **Recharts.js (Chart Library)**  
   Used to:
   - Plot daily AWS costs in a smooth, scrollable graph
   - Compare trends and spot cost spikes visually
+![  Charts](workfl.png)
 
 - 🔄 **Data Pipeline**  
   Final flow:  
