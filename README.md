@@ -94,5 +94,32 @@
 | ⚙️ Infrastructure as Code | **Terraform** — Provisions Lambda, API Gateway, IAM roles, and (optional) S3 bucket |
 
 
-## Project Workflow 
+## 🏗️ Architecture Overview
+
+
+![CloudGuard360 Architecture](./path-to-your-image.png)
+
+## 👨‍💻 For Recruiters
+
+This project showcases my ability to independently architect, secure, and deploy a production-ready cloud-native platform using real-world DevOps practices:
+
+### ☁️ Cloud & Serverless Engineering
+- ⚙️ Designed a **serverless backend architecture** with AWS Lambda and API Gateway
+- 💰 Integrated **AWS Cost Explorer** to fetch and visualize live daily billing data
+- 🔍 Monitored infrastructure metrics using **CloudWatch**, optionally extended to alarms
+- 🔐 Applied **IAM role-based security** and CORS policies to protect APIs
+
+### 🛠 DevOps & Infrastructure as Code
+- 🚀 Used **Terraform** to provision all cloud resources (Lambda, API Gateway, IAM, S3)
+- 🧪 Created reproducible, version-controlled infrastructure following IaC best practices
+- 📦 Managed deployment of frontend via **Amazon S3** and optionally **GitHub Pages**
+
+### 🎯 Frontend for Cloud Insights
+- 🖥 Built a responsive **dashboard UI in React** using **Tailwind CSS** and **Recharts.js**
+- 📈 Displayed cost trends and service usage in a user-friendly, actionable format
+- 🌍 Enabled secure **cross-origin API communication** with minimal frontend setup
+
+### 🔁 End-to-End Data Pipeline
+- 🔄 Orchestrated a full data flow: React ⟶ Axios ⟶ API Gateway ⟶ Lambda ⟶ AWS Billing APIs
+
 
