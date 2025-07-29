@@ -12,6 +12,7 @@
 |----------------------------|-----------------------------------------------------------------------------------------------------|-----------------|
 | 🧾 Cloud Cost Visibility    | AWS bills are delayed and hard to interpret — overspending is realized too late                    | 🔴 Major        |
 | 🛑 Usage Blind Spots        | No quick way to view what services (like EC2/S3) are running or how much they consume              | 🔴 Major        |
+| 📈 Forecasting Blind Spot   | No built-in insights to **predict future costs** based on current usage trends                     | 🟠 Moderate     |
 | 🖼️ UI Inaccessibility      | AWS Console dashboards are not beginner-friendly or customizable                                   | 🟠 Moderate     |
 | 🔧 Complex Billing APIs     | Cost Explorer API is complex — requires pagination, auth, and JSON manipulation                   | 🟠 Moderate     |
 | 🌐 CORS / API Access        | Frontend apps can’t access AWS APIs directly due to CORS and credential issues                    | 🟠 Moderate     |
@@ -33,6 +34,7 @@
 | 🌐 CORS / API Access        | • Configured API Gateway with **CORS headers** <br>• Enabled secure frontend-backend communication without exposing credentials            |
 | 🧪 Fake vs Real Data        | • Dashboard shows **real billing data** directly from AWS Cost Explorer <br>• Usage stats shown with placeholder logic for expandability     |
 | 🗃️ Disjointed Interfaces   | • Unified **billing + usage + infrastructure metrics** in a single-pane dashboard <br>• No need to log into AWS console for summaries      |
+| 📈 Forecasting Blind Spot   | • Created forecasting-ready pipeline by exporting S3 usage to CSV <br>• Integrated with SageMaker for **cost prediction using LSTM**      |
 | 📊 Lack of Visual Insights  | • Used **Recharts** to display daily cost trends <br>• Made billing data easy to scan via tooltips, grids, and smooth line charts         |
 | 🔐 API Security Risks       | • API uses **IAM-secured Lambda**, with no frontend secrets <br>• Follows secure architecture: Lambda → API Gateway → React               |
 | 🧳 No Shareable View        | • Entire dashboard is **frontend-agnostic and portable** <br>• Can be deployed to GitHub Pages or any static hosting provider             |
@@ -47,6 +49,7 @@
 | 🌐 **Multi-Cloud Scope**  | **GCP Billing API (Integrated)** — Added GCP cost-fetching to make the dashboard cross-cloud compatible     |
 | 🧠 **Serverless Compute** | **AWS Lambda (Python)** — Fetches billing data securely from AWS Cost Explorer and returns JSON API        |
 | 🛠️ **DevOps & IaC**        | **Terraform** — Provisioned all AWS infra (Lambda, IAM, Gateway, roles, permissions) as code                |
+🧪 **AI/ML Forecasting**  | **SageMaker + LSTM (Python)** — Trained an LSTM model to predict future AWS costs from past 60-day trends      |
 | 📊 **Monitoring APIs**     | **AWS Cost Explorer + CloudWatch SDKs** — Pulled real-time cost + alarm usage data with automated handling |
 | 🔐 **Security Controls**   | Scoped **IAM roles**, API **CORS policies**, and zero secrets in frontend for production-grade protection   |
 | 📦 **Storage (Optional)**  | **Amazon S3** — Stores frontend app and optionally logs usage/output from Lambda                           |
@@ -56,30 +59,71 @@
 | 🔄 **Data Pipeline Flow**  | React → Axios → API Gateway → Lambda → Cost Explorer/CloudWatch → JSON → Render in dashboard               |
 
 
-## ⚙️ CloudGuard360 Architecture 
+ 
 
 
-### 🧭 End-to-End Data Flow
+## 🧭 End-to-End Workflow (CloudGuard360 Architecture)
 
-- 🧑‍💻 **Frontend: React + Tailwind + Recharts**  
-  Interactive dashboard that fetches real-time AWS billing, usage, and alarm metrics.
-- 🌐 **API Gateway (REST)**  
-  Exposes a secure `/data` endpoint, enabling frontend to query AWS Lambda seamlessly.
+This is how the entire pipeline flows — from cloud data collection to frontend insights :
+
+### ☁️ Cloud + DevOps Backbone
+
 - 🧠 **AWS Lambda (Python)**  
-  Acts as the core logic layer:
-  - Queries **AWS Cost Explorer** for daily billing trends
-  - Adds mock EC2/S3/CloudWatch usage for demo
-  - Returns JSON data to frontend
-- 💰 **AWS Cost Explorer SDK**  
-  Provides actual billing data for EC2, S3, CloudWatch, etc., using `get_cost_and_usage()`.
-- 📊 **CloudWatch (Optional)**  
-  Can be used to count alarms and enhance security monitoring in future.
-- 📦 **Amazon S3 (Optional)**  
-  Used optionally to host the React frontend or store analytics snapshots.
-- 🔐 **IAM + CORS Security**  
-  Lambda runs under least-privilege IAM roles. CORS headers allow safe cross-origin requests from React app.
+  Acts as the intelligent backend processor. It:
+  - Authenticates securely using IAM roles
+  - Calls **AWS Cost Explorer** to fetch **real-time billing data** for the last 60 days
+  - Optionally adds usage metrics (e.g., EC2 instances, S3 storage, CloudWatch alarms)
+  - Returns all data as structured JSON to the frontend
 
----
+- 🌐 **API Gateway (REST)**  
+  Serves as the public interface for the Lambda backend.  
+  - Exposes a secure, rate-limited `/data` endpoint
+  - Includes **CORS configuration** to allow safe calls from any verified frontend
+  - Ensures only legitimate requests hit the Lambda function
+
+- 🔐 **IAM Roles & Permissions**  
+  Lambda is attached to **scoped IAM roles** that only allow it to call Cost Explorer and CloudWatch.  
+  No secrets are ever stored or exposed in the frontend — it's all handled securely via AWS.
+
+- 📦 **Amazon S3 (Optional)**  
+  Used to:
+  - Host the static React frontend (alternative to GitHub Pages)
+  - Store CSV logs or forecasting results exported from Lambda or SageMaker
+
+
+ **📉 AI-Powered Forecasting Engine**
+
+- ⚙️ **Serverless Python Forecasting** — Built in **VS Code** and deployed to **AWS Lambda** using **NumPy** and **Scikit-learn** to predict billing trends without SageMaker.
+- 📆 **Flexible Triggers** — Runs on-demand via **API Gateway** or scheduled with **EventBridge** for auto-updated cost forecasts.
+- 📊 **Output Ready** — Forecasted data is returned as JSON, and optionally stored in **S3** or **DynamoDB** for dashboards.
+
+
+### 🌍 Multi-Cloud Ready (GCP Support)
+
+- 🌐 **GCP Billing API (Integrated)**  
+  A separate Lambda or backend module fetches **daily cost data from GCP**.
+  - Allows side-by-side visualization of AWS and GCP spending
+  - Makes CloudGuard360 **multi-cloud compatible**
+  - Useful for cost optimization across providers
+
+
+### 💻 Frontend & Visualization Layer
+
+- 🧑‍💻 **React + Tailwind CSS**  
+  The UI is built with a clean, responsive design:
+  - Mobile-ready layout using Tailwind grid and spacing
+  - Custom components like `SummaryCard`, `UsageTable`, and `AnalyticsChart`
+
+- 📈 **Recharts.js (Chart Library)**  
+  Used to:
+  - Plot daily AWS costs in a smooth, scrollable graph
+  - Compare trends and spot cost spikes visually
+
+- 🔄 **Data Pipeline**  
+  Final flow:  
+  `React App ⟶ Axios ⟶ API Gateway ⟶ Lambda ⟶ AWS SDK (Cost Explorer/CloudWatch) ⟶ JSON ⟶ UI Rendered`
+
+
 
 ### 🛠️ DevOps & IaC Foundation
 
@@ -97,7 +141,7 @@
 ## 🏗️ Architecture Overview
 
 
-![CloudGuard360 Architecture](./path-to-your-image.png)
+![CloudGuard360 Architecture](workflow.png)
 
 ## 👨‍💻 For Recruiters
 
