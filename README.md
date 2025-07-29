@@ -99,7 +99,7 @@ This is how the entire pipeline flows — from cloud data collection to frontend
   No secrets are ever stored or exposed in the frontend — it's all handled securely via AWS.  
 
 
-  ![IAM-ROLES](wo.png)
+  ![IAM-ROLES](IAM-roles.png)
 
 
 
