@@ -13,14 +13,15 @@
 |----------------------------|-----------------------------------------------------------------------------------------------------|-----------------|
 | 🧾 Cloud Cost Visibility    | AWS bills are delayed and hard to interpret — overspending is realized too late                    | 🔴 Major        |
 | 🛑 Usage Blind Spots        | No quick way to view what services (like EC2/S3) are running or how much they consume              | 🔴 Major        |
-| 📈 Forecasting Blind Spot   | No built-in insights to **predict future costs** based on current usage trends                     | 🟠 Moderate     |
+| 📈 Forecasting Blind Spot   | No built-in insights to **predict future costs** based on current usage trends                     | 🔴 Major     |
+| 🧪 Fake vs Real Data        | Many dashboards show dummy data which hurts trust                                                  | 🔴 Major        |
+| 🚨 No Alerting Mechanism    | No system to notify when **cost spikes unexpectedly** (e.g., >20% rise in daily spend)             | 🔴 Major        |
+| 🗃️ Disjointed Interfaces   | Cost, usage, and security info are scattered across different AWS pages                            | 🔴 Major        |
+| 🔐 API Security Risks       | Exposing secrets or credentials in frontend is risky                                               | 🔴 Major        |
 | 🖼️ UI Inaccessibility      | AWS Console dashboards are not beginner-friendly or customizable                                   | 🟠 Moderate     |
 | 🔧 Complex Billing APIs     | Cost Explorer API is complex — requires pagination, auth, and JSON manipulation                   | 🟠 Moderate     |
 | 🌐 CORS / API Access        | Frontend apps can’t access AWS APIs directly due to CORS and credential issues                    | 🟠 Moderate     |
-| 🧪 Fake vs Real Data        | Many dashboards show dummy data which hurts trust                                                  | 🔴 Major        |
-| 🗃️ Disjointed Interfaces   | Cost, usage, and security info are scattered across different AWS pages                            | 🔴 Major        |
 | 📊 Lack of Visual Insights  | Raw AWS tables/JSON are hard to interpret                                                          | 🟠 Moderate     |
-| 🔐 API Security Risks       | Exposing secrets or credentials in frontend is risky                                               | 🔴 Major        |
 | 🧳 No Shareable View        | AWS Console can’t be customized or shared externally                                               | 🟠 Moderate     |
 
 
@@ -57,12 +58,13 @@
 | 🌐 **API Gateway (REST)**  | Acts as a secure, CORS-enabled public endpoint bridging frontend and Lambda                                |
 | 💻 **Frontend Framework**  | **React + Tailwind CSS** — Clean, responsive UI showing billing data and usage summaries                   |
 | 📈 **Charts & Graphs**     | **Recharts.js** — Visualizes trends and spikes in AWS/GCP cost over time in line charts                   |
+| 📉 CloudWatch Monitoring     | • Configured **CloudWatch alarms** to track key AWS metrics (e.g., Lambda errors, usage patterns) <br>• Helps identify unusual behavior or misconfigurations in real-time |
+| 📢 SNS Alerting Integration  | • Connected **SNS topic** to CloudWatch to send alerts on threshold breach (e.g., >20% daily cost increase) <br>• Delivers instant email notifications for proactive response |
+
 | 🔄 **Data Pipeline Flow**  | React → Axios → API Gateway → Lambda → Cost Explorer/CloudWatch → JSON → Render in dashboard               |
 
 
  
-
-
 ## 🧭 End-to-End Workflow (CloudGuard360 Architecture)
 
 This is how the entire pipeline flows — from cloud data collection to frontend insights :
@@ -74,37 +76,76 @@ This is how the entire pipeline flows — from cloud data collection to frontend
   - Authenticates securely using IAM roles
   - Calls **AWS Cost Explorer** to fetch **real-time billing data** for the last 60 days
   - Optionally adds usage metrics (e.g., EC2 instances, S3 storage, CloudWatch alarms)
-  - Returns all data as structured JSON to the frontend
-![  Aws-Lamda](workflow.png)
+  - Returns all data as structured JSON to the frontend 
+
+ 
+  ![Lamda-function](Lamda-function.png)
+
+
 
 - 🌐 **API Gateway (REST)**  
   Serves as the public interface for the Lambda backend.  
-  - Exposes a secure, rate-limited `/data` endpoint
-  - Includes **CORS configuration** to allow safe calls from any verified frontend
-  - Ensures only legitimate requests hit the Lambda function
-![  API-GATEWAY](.png)
+  - Exposes a secure, rate-limited `/data` endpoint  
+  - Includes **CORS configuration** to allow safe calls from any verified frontend  
+  - Ensures only legitimate requests hit the Lambda function  
+
+
+  ![API-GATEWAY](Api-Gtaeway.png)
+
+
 
 - 🔐 **IAM Roles & Permissions**  
   Lambda is attached to **scoped IAM roles** that only allow it to call Cost Explorer and CloudWatch.  
-  No secrets are ever stored or exposed in the frontend — it's all handled securely via AWS.
-![  IAM-ROLES](wo.png)
+  No secrets are ever stored or exposed in the frontend — it's all handled securely via AWS.  
+
+
+  ![IAM-ROLES](wo.png)
+
+
 
 - 📦 **Amazon S3**  
   Used to:
   - Host the static React frontend (alternative to GitHub Pages)
-  - Store CSV logs or forecasting results exported from Lambda or SageMaker
-![  S3-bucket](.png)
+  - Store CSV logs or forecasting results exported from Lambda or SageMaker  
 
 
- **📉 AI-Powered Forecasting Engine**
+  ![S3-bucket](S3-bucket.png)
+
+
+
+- 📉 **CloudWatch Monitoring**  
+  CloudWatch alarms track backend health (e.g., Lambda errors).  
+  These alerts can be extended for usage anomalies or performance insights.
+
+
+![cloudwatch](Cloud-Watch.png)
+
+
+
+- 📢 **SNS Notifications**  
+  CloudWatch is integrated with **Amazon SNS** to trigger alerts (email/SMS) when:
+  - Daily billing exceeds a threshold
+  - Cost increases >20% from the previous day
+  Useful for **real-time budget awareness** without logging into AWS.
+
+
+![  SNS](SNS-alert.png)
+
+
+
+
+***🤖 AI-Powered Forecasting Engine***
 
 - ⚙️ **Serverless Python Forecasting** — Built in **VS Code** and deployed to **AWS Lambda** using **NumPy** and **Scikit-learn** to predict billing trends without SageMaker.
 - 📆 **Flexible Triggers** — Runs on-demand via **API Gateway** or scheduled with **EventBridge** for auto-updated cost forecasts.
-- 📊 **Output Ready** — Forecasted data is returned as JSON, and optionally stored in **S3** or **DynamoDB** for dashboards.
-![  Forecasting](.png)
+- 📊 **Output Ready** — Forecasted data is returned as JSON, and optionally stored in **S3** or **DynamoDB** for dashboards. 
+
+ 
+  ![Forecasting](ai-forecasting.png)
 
 
-### 🌍 Multi-Cloud Ready (GCP Support)
+
+***🌍 Multi-Cloud Ready (GCP Support)***
 
 - 🌐 **GCP Billing API (Integrated)**  
   A separate Lambda or backend module fetches **daily cost data from GCP**.
@@ -113,19 +154,29 @@ This is how the entire pipeline flows — from cloud data collection to frontend
   - Useful for cost optimization across providers
 
 
-### 💻 Frontend & Visualization Layer
+
+
+***💻 Frontend & Visualization Layer***
 
 - 🧑‍💻 **React + Tailwind CSS**  
   The UI is built with a clean, responsive design:
   - Mobile-ready layout using Tailwind grid and spacing
-  - Custom components like `SummaryCard`, `UsageTable`, and `AnalyticsChart`
-![  Visualization](workfw.png)
+  - Custom components like `SummaryCard`, `UsageTable`, and `AnalyticsChart`  
+
+
+  ![Visualization](Dashbord.png)
+
+
 
 - 📈 **Recharts.js (Chart Library)**  
   Used to:
   - Plot daily AWS costs in a smooth, scrollable graph
-  - Compare trends and spot cost spikes visually
-![  Charts](workfl.png)
+  - Compare trends and spot cost spikes visually  
+
+
+  ![Charts](charts.png)
+
+
 
 - 🔄 **Data Pipeline**  
   Final flow:  
@@ -134,6 +185,7 @@ This is how the entire pipeline flows — from cloud data collection to frontend
 
 
 ### 🛠️ DevOps & IaC Foundation
+---
 
 | 🔧 Component            | ✅ Implementation                                                                 |
 |------------------------|------------------------------------------------------------------------------------|
