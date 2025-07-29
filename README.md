@@ -227,3 +227,37 @@ This project showcases my ability to independently architect, secure, and deploy
 - 🔄 Orchestrated a full data flow: React ⟶ Axios ⟶ API Gateway ⟶ Lambda ⟶ AWS Billing APIs
 
 
+## 🙌 Contributions Welcome!
+
+**CloudGuard360** is a cloud-native, open-source DevOps project — and we’d love for you to contribute!  
+Whether you're a Cloud Engineer, DevOps Developer, Data Scientist, or AWS enthusiast — your ideas are welcome.
+
+---
+
+### 💡 Feature Ideas You Can Work On
+
+| 💡 Idea                        | 📋 Description                                                                                   |
+|-------------------------------|--------------------------------------------------------------------------------------------------|                            
+| 📈 GCP Forecast Integration    | Add **cost prediction logic for GCP** to match AWS’s forecasting capabilities                   |
+| 🧑‍💼 IAM Role Breakdown        | Show costs broken down by **IAM users or roles** to highlight who’s driving usage              |
+| 🌙 Dark Mode UI               | Add toggleable **dark mode** for the React + Tailwind dashboard                                |
+| 🔐 Auth Layer (Optional)      | Add optional **user authentication** to limit dashboard access                                 |
+| 🧪 Real-Time EC2 Fetching     | Replace placeholder data with **live EC2 instance count** via DescribeInstances API            |
+| 📬 Weekly Email Reports       | Generate and send weekly cost reports using **SES or SNS**                                     |
+| 📊 Region-Wise Cost Summary   | Break down AWS billing **by region** and display visual insights                              |
+| 💾 CSV/JSON Export            | Add export button to download current cost/usage data in CSV or JSON                           |
+
+---
+
+### 🛠️ How to Contribute
+
+- 🍴 Fork this repository  
+- 📦 Create a new feature branch: `git checkout -b your-feature-name`  
+- ✍️ Make your changes and test locally  
+- 📬 Submit a pull request with a clear description of your enhancement  
+
+---
+
+### 🤝 Let’s Build CloudGuard360 Together!
+Made with ☁️💙 by **Manas Gantait**
+
