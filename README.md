@@ -36,3 +36,63 @@
 | 📊 Lack of Visual Insights  | • Used **Recharts** to display daily cost trends <br>• Made billing data easy to scan via tooltips, grids, and smooth line charts         |
 | 🔐 API Security Risks       | • API uses **IAM-secured Lambda**, with no frontend secrets <br>• Follows secure architecture: Lambda → API Gateway → React               |
 | 🧳 No Shareable View        | • Entire dashboard is **frontend-agnostic and portable** <br>• Can be deployed to GitHub Pages or any static hosting provider             |
+
+
+## 🧰 Tech Stack Used
+
+
+| 🔧 Area                  | 💡 What I Used (and Why)                                                                                  |
+|--------------------------|------------------------------------------------------------------------------------------------------------|
+| ☁️ **Cloud Platform**     | **AWS** — End-to-end architecture deployed on cloud-native services like Lambda, API Gateway, and S3       |
+| 🌐 **Multi-Cloud Scope**  | **GCP Billing API (Integrated)** — Added GCP cost-fetching to make the dashboard cross-cloud compatible     |
+| 🧠 **Serverless Compute** | **AWS Lambda (Python)** — Fetches billing data securely from AWS Cost Explorer and returns JSON API        |
+| 🛠️ **DevOps & IaC**        | **Terraform** — Provisioned all AWS infra (Lambda, IAM, Gateway, roles, permissions) as code                |
+| 📊 **Monitoring APIs**     | **AWS Cost Explorer + CloudWatch SDKs** — Pulled real-time cost + alarm usage data with automated handling |
+| 🔐 **Security Controls**   | Scoped **IAM roles**, API **CORS policies**, and zero secrets in frontend for production-grade protection   |
+| 📦 **Storage (Optional)**  | **Amazon S3** — Stores frontend app and optionally logs usage/output from Lambda                           |
+| 🌐 **API Gateway (REST)**  | Acts as a secure, CORS-enabled public endpoint bridging frontend and Lambda                                |
+| 💻 **Frontend Framework**  | **React + Tailwind CSS** — Clean, responsive UI showing billing data and usage summaries                   |
+| 📈 **Charts & Graphs**     | **Recharts.js** — Visualizes trends and spikes in AWS/GCP cost over time in line charts                   |
+| 🔄 **Data Pipeline Flow**  | React → Axios → API Gateway → Lambda → Cost Explorer/CloudWatch → JSON → Render in dashboard               |
+
+
+## ⚙️ CloudGuard360 Architecture 
+
+
+### 🧭 End-to-End Data Flow
+
+- 🧑‍💻 **Frontend: React + Tailwind + Recharts**  
+  Interactive dashboard that fetches real-time AWS billing, usage, and alarm metrics.
+- 🌐 **API Gateway (REST)**  
+  Exposes a secure `/data` endpoint, enabling frontend to query AWS Lambda seamlessly.
+- 🧠 **AWS Lambda (Python)**  
+  Acts as the core logic layer:
+  - Queries **AWS Cost Explorer** for daily billing trends
+  - Adds mock EC2/S3/CloudWatch usage for demo
+  - Returns JSON data to frontend
+- 💰 **AWS Cost Explorer SDK**  
+  Provides actual billing data for EC2, S3, CloudWatch, etc., using `get_cost_and_usage()`.
+- 📊 **CloudWatch (Optional)**  
+  Can be used to count alarms and enhance security monitoring in future.
+- 📦 **Amazon S3 (Optional)**  
+  Used optionally to host the React frontend or store analytics snapshots.
+- 🔐 **IAM + CORS Security**  
+  Lambda runs under least-privilege IAM roles. CORS headers allow safe cross-origin requests from React app.
+
+---
+
+### 🛠️ DevOps & IaC Foundation
+
+| 🔧 Component            | ✅ Implementation                                                                 |
+|------------------------|------------------------------------------------------------------------------------|
+| ☁️ Cloud Provider       | **AWS** — Primary cloud platform for compute, monitoring, and billing services    |
+| 🧠 Compute Backend       | **AWS Lambda (Python)** — Serverless function fetching real-time cost + usage     |
+| 🌐 API Management       | **API Gateway (REST)** — Secure endpoint between Lambda and React frontend        |
+| 📦 Frontend Hosting     | **React + Tailwind** — Deployed locally or on S3/GitHub Pages                     |
+| 📈 Data Visualization   | **Recharts.js** — Billing chart with cost trends and spikes                       |
+| 🔐 IAM & CORS           | Scoped IAM roles + CORS headers to prevent credential leaks                       |
+| ⚙️ Infrastructure as Code | **Terraform** — Provisions Lambda, API Gateway, IAM roles, and (optional) S3 bucket |
+
+
+## Project Workflow 
+
