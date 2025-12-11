@@ -83,7 +83,7 @@ This is how the entire pipeline flows — from cloud data collection to frontend
 
 
 
-- 🌐 **API Gateway (REST)**  
+- 🌐 **API  Gateway (REST)**  
   Serves as the public interface for the Lambda backend.  
   - Exposes a secure, rate-limited `/data` endpoint  
   - Includes **CORS configuration** to allow safe calls from any verified frontend  
