@@ -25,7 +25,7 @@
 | 🧳 No Shareable View        | AWS Console can’t be customized or shared externally                                               | 🟠 Moderate     |
 
 
-## 🔍 Problems Solved by CloudGuard360
+## 🔍 Problems Solved by CloudGuard360 
 
 | 🧠 **Category**             | ✅ **CloudGuard360’s Solution**                                                                                                  |
 |----------------------------|-----------------------------------------------------------------------------------------------------------------------------------|
