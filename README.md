@@ -6,7 +6,7 @@
 > 🔒 Think of it as your personal AWS billing and usage control tower.. 
 
 
-## ⚠️ Key Cloud Challenges Identified(problems)
+## ⚠️ Key Cloud Challenges Identified(problems) 
 
 
 | 🧠 **Category**             | 💥 **Problem / Challenge**                                                                         | 🚨 **Severity** |
