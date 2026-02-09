@@ -100,7 +100,7 @@
 | 🔄 **Data Pipeline Flow**  | React → Axios → API Gateway → Lambda → Cost Explorer/CloudWatch → JSON → Render in dashboard               |
 
 ## 🏗️ System Architecture (Single Source of Truth)
-![CloudGuard360 Architecture](cloudguard360.png)
+![CloudGuard360 Architecture](CloudGuard360.png)
 
  
 ## 🧭 Data Flow / Request Lifecycle (End-to-End)
