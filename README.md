@@ -60,10 +60,22 @@
 - A production SaaS product
 - Real-time, second-by-second cost tracker
 
-## Target Users & Use Cases
+---
 
-## 🏗️ System Architecture (Single Source of Truth)
-![CloudGuard360 Architecture](cloudguard360.png)
+## 🎯 Target Users & Use Cases
+
+### 👥 Target Users
+- Cloud engineers managing multi-cloud environments ☁️
+- DevOps and SRE teams monitoring infrastructure costs ⚙️
+- Startups needing simple cost visibility without full FinOps tools 💰
+- Students and engineers learning cloud cost optimization 🧠
+
+### 🧩 Use Cases
+- Get a quick overview of AWS and GCP spending in one place
+- Identify unusual cost spikes or inefficient resources
+- Forecast short-term cloud expenses
+- Demonstrate cost-aware, serverless architecture in real environments
+- Provide a lightweight internal dashboard for cloud usage insights
 
 
 ## 🧰 Tech Stack Used
@@ -87,6 +99,8 @@
 
 | 🔄 **Data Pipeline Flow**  | React → Axios → API Gateway → Lambda → Cost Explorer/CloudWatch → JSON → Render in dashboard               |
 
+## 🏗️ System Architecture (Single Source of Truth)
+![CloudGuard360 Architecture](cloudguard360.png)
 
  
 ## 🧭 Data Flow / Request Lifecycle (End-to-End)
@@ -185,7 +199,6 @@ Used for Lambda error monitoring and cost-spike alerting via alarms.
 
 
 ### 🛠️ DevOps & Infrastructure as Code
----
 
 | 🔧 Component            | ✅ Implementation                                                                 |
 |------------------------|------------------------------------------------------------------------------------|
@@ -197,39 +210,55 @@ Used for Lambda error monitoring and cost-spike alerting via alarms.
 | 🔐 IAM & CORS           | Scoped IAM roles + CORS headers to prevent credential leaks                       |
 | ⚙️ Infrastructure as Code | **Terraform** — Provisions Lambda, API Gateway, IAM roles, and (optional) S3 bucket |
 
+## ⚙️ Design Rationale
+
+- Used **Lambda over EC2** to avoid always-on infrastructure and reduce costs ☁️
+- Chose **serverless over containers** for event-driven workloads ⚡
+- Built a **custom React dashboard** to unify multi-cloud views 🖥️
+
+Design focused on **simplicity, low cost, and cloud-native patterns**.
 
 
+## ✨ Key Features
 
-## 👨‍💻 Features
+- Multi-cloud cost data collection (AWS + GCP) ☁️
+- Serverless analysis using AWS Lambda ⚡
+- Automated cost and usage insights 📊
+- Basic forecasting of spending trends 📈
+- Infrastructure as Code using Terraform 🏗️
+- Lightweight React dashboard for visibility 🖥️
+- Scheduled analysis using event-driven workflows ⏱️
+- End-to-end system built and tested in real cloud environments 🧪
 
-This project showcases my ability to independently architect, secure, and deploy a production-ready cloud-native platform using real-world DevOps practices:
 
-### ☁️ Cloud & Serverless Engineering
-- ⚙️ Designed a **serverless backend architecture** with AWS Lambda and API Gateway
-- 💰 Integrated **AWS Cost Explorer** to fetch and visualize live daily billing data
-- 🔍 Monitored infrastructure metrics using **CloudWatch**, optionally extended to alarms
-- 🔐 Applied **IAM role-based security** and CORS policies to protect APIs
+## 💰 Cost Awareness & Trade-offs
 
-### 🛠 DevOps & Infrastructure as Code
-- 🚀 Used **Terraform** to provision all cloud resources (Lambda, API Gateway, IAM, S3)
-- 🧪 Created reproducible, version-controlled infrastructure following IaC best practices
-- 📦 Managed deployment of frontend via **Amazon S3** and optionally **GitHub Pages**
+- Serverless keeps compute costs near zero at low usage ☁️
+- Avoided always-on EC2 instances to reduce idle costs
+- Cost Explorer APIs have rate limits and data delays
+- Trade-off: lower cost but not real-time accuracy
 
-### 🎯 Frontend for Cloud Insights
-- 🖥 Built a responsive **dashboard UI in React** using **Tailwind CSS** and **Recharts.js**
-- 📈 Displayed cost trends and service usage in a user-friendly, actionable format
-- 🌍 Enabled secure **cross-origin API communication** with minimal frontend setup
+---
 
-### 🔁 End-to-End Data Pipeline
-- 🔄 Orchestrated a full data flow: React ⟶ Axios ⟶ API Gateway ⟶ Lambda ⟶ AWS Billing APIs
+## ⚠️ Explicit Limitations
 
+- Forecast accuracy depends on limited historical data 📉
+- AWS billing data may be delayed by 24–48 hours ⏱️
+- Not real-time cost tracking
+- Some usage metrics are simplified for demonstration
+
+
+## 🎯 What This Project Demonstrates About Me
+
+- Ability to design **serverless, multi-cloud systems** ☁️
+- Practical understanding of **cloud cost behavior** 💰
+- Experience with **IaC, automation, and dashboards** ⚙️
+- Focus on **working, testable systems** over theoretical designs 🧪
 
 ## 🙌 Contributions Welcome!
 
 **CloudGuard360** is a cloud-native, open-source DevOps project — and we’d love for you to contribute!  
 Whether you're a Cloud Engineer, DevOps Developer, Data Scientist, or AWS enthusiast — your ideas are welcome.
-
----
 
 ### 💡 Feature Ideas You Can Work On
 
@@ -244,8 +273,6 @@ Whether you're a Cloud Engineer, DevOps Developer, Data Scientist, or AWS enthus
 | 📊 Region-Wise Cost Summary   | Break down AWS billing **by region** and display visual insights                              |
 | 💾 CSV/JSON Export            | Add export button to download current cost/usage data in CSV or JSON                           |
 
----
-
 ### 🛠️ How to Contribute
 
 - 🍴 Fork this repository  
@@ -257,4 +284,14 @@ Whether you're a Cloud Engineer, DevOps Developer, Data Scientist, or AWS enthus
 
 ### 🤝 Let’s Build CloudGuard360 Together!
 Made with ☁️💙 by **Manas Gantait**
+
+
+## 🏁 Final Note
+
+CloudGuard360 is not a billing replacement or enterprise FinOps platform.  
+It is a practical, working system that collects real cloud data, analyzes it, and surfaces useful insights using serverless architecture.
+
+The goal of this project was to design a **cost-aware, event-driven, multi-cloud monitoring system**—and prove it with real infrastructure, real data, and real execution.
+
+If you can deploy it, inspect the pipelines, and explain the trade-offs, you understand the system—not just the code.
 
