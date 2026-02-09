@@ -6,7 +6,7 @@
 > 🔒 Think of it as your personal AWS billing and usage control tower.. 
 
 
-## ⚠️ Key Cloud Challenges Identified(problems)  
+## ⚠️ Real-Life Cloud Problems (Problem Table)  
 
 
 | 🧠 **Category**             | 💥 **Problem / Challenge**                                                                         | 🚨 **Severity** |
@@ -65,7 +65,7 @@
 
 
  
-## 🧭 End-to-End Workflow (CloudGuard360 Architecture)
+## 🧭 End-to-End Workflow Explanation (CloudGuard360 Architecture)
 
 This is how the entire pipeline flows — from cloud data collection to frontend insights :
 
@@ -81,13 +81,8 @@ This is how the entire pipeline flows — from cloud data collection to frontend
  
   ![Lamda-function](Lamda-function.png)
 
-
-
-- 🌐 **API  Gateway (REST)**  
-  Serves as the public interface for the Lambda backend.  
-  - Exposes a secure, rate-limited `/data` endpoint  
-  - Includes **CORS configuration** to allow safe calls from any verified frontend  
-  - Ensures only legitimate requests hit the Lambda function  
+- 🌐 **API  Gateway (REST)**
+Used to expose a secure /data endpoint for frontend access, with CORS enabled and Lambda proxy integration.
 
 
   ![API-GATEWAY](Api-Gtaeway.png)
@@ -95,8 +90,7 @@ This is how the entire pipeline flows — from cloud data collection to frontend
 
 
 - 🔐 **IAM Roles & Permissions**  
-  Lambda is attached to **scoped IAM roles** that only allow it to call Cost Explorer and CloudWatch.  
-  No secrets are ever stored or exposed in the frontend — it's all handled securely via AWS.  
+  Lambda runs with least-privilege IAM roles limited to Cost Explorer and CloudWatch APIs.
 
 
   ![IAM-ROLES](IAM-roles.png)
@@ -114,9 +108,7 @@ This is how the entire pipeline flows — from cloud data collection to frontend
 
 
 - 📉 **CloudWatch Monitoring**  
-  CloudWatch alarms track backend health (e.g., Lambda errors).  
-  These alerts can be extended for usage anomalies or performance insights.
-
+Used for Lambda error monitoring and cost-spike alerting via alarms.
 
 ![cloudwatch](Cloud-Watch.png)
 
