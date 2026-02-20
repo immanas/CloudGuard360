@@ -88,7 +88,7 @@ CloudGuard360/
 └── charts.png  # Cost visualization sample  
 ```
 ## 🏗️ System Architecture (Single Source of Truth) :
-![CloudGuard360 Architecture](CloudGuard360.png)
+![CloudGuard360 Architecture](CloudGuard360/docs/CloudGuard360.png)
 
 ## 📈 Core Features :
 
