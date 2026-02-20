@@ -18,6 +18,75 @@
 | Many dashboards rely on **mock or static data** | Integrated **real AWS billing data pipeline** | Builds trust and makes system production-relevant |
 | No easy way to **share or customize AWS dashboards** | Built a **portable React dashboard** deployable anywhere | Enables external sharing and customization |
 
+## 📁 Project Structure :
+This repository is structured to separate serverless backend processing, infrastructure provisioning, and frontend visualization for a clear and scalable system design.
+```
+CloudGuard360/
+│
+├── aws/  # Backend + cloud logic (AWS services, Lambda, forecasting)
+|
+│   ├── Forecasting/  # ML-based cost prediction logic (historical data → forecast)
+│   │   
+│   ├── Terraform/  # Infrastructure as Code for AWS resources
+│   │   
+│   │   ├── main.tf        # Core infrastructure definitions  
+│   │   ├── variables.tf   # Input variables  
+│   │   ├── outputs.tf     # Output values  
+│   │   └── provider.tf    # AWS provider configuration  
+│   └── lambda/  # Serverless backend (data processing APIs)
+│
+│       ├── cloud_cost_monitor.py      # Fetches AWS billing data  
+│       ├── cloud_cost_monitor.zip     # Deployment package  
+│       ├── CloudGuard360-BillingAnalyzer.py   # Billing insights logic  
+│       ├── CloudGuard360-EC2Analyzer.py       # EC2 usage analysis  
+│       ├── CloudGuard360BillingHistory.py     # Historical billing data  
+│       ├── cloudguard360-ai-data.py           # Data prep for forecasting  
+│       └── index.js                           # API handler / integration layer  
+│
+├── cloudguard360-dashboard/  # Frontend React dashboard (UI + visualization)
+│
+│   ├── public/  
+│   │   # Static assets  
+│   │   ├── index.html        # Entry HTML  
+│   │   ├── favicon.ico       # Icon  
+│   │   ├── manifest.json     # PWA config  
+│   │   └── robots.txt        # SEO config  
+│   ├── src/  # Application source code  
+│   │
+│   │   ├── components/  # Reusable UI components  
+│   │   │   ├── Header.js          # Top navigation  
+│   │   │   ├── SummaryCard.js     # Cost summary cards  
+│   │   │   ├── UsageTable.js      # Service usage table  
+│   │   │   └── AnalyticsChart.js  # Cost trend charts  
+│   │   ├── App.js        # Main app logic  
+│   │   ├── index.js      # React entry point  
+│   │   ├── App.css       # App styles  
+│   │   └── index.css     # Global styles  
+│   ├── package.json        # Dependencies and scripts  
+│   ├── package-lock.json   # Dependency lock file  
+│   ├── tailwind.config.js  # Tailwind CSS config  
+│   └── postcss.config.js   # PostCSS config  
+│
+├── docs/  # Architecture diagrams, screenshots, and proof
+│
+│   ├── CloudGuard360.png     # Architecture diagram  
+│   ├── Dashboard.png         # UI dashboard preview  
+│   ├── charts.png            # Visualization charts  
+│   ├── ai-forecasting.png    # ML forecasting output  
+│   ├── Api-Gateway.png       # API Gateway flow  
+│   ├── Lambda-function.png   # Lambda execution view  
+│   ├── Cloud-Watch.png       # Monitoring logs  
+│   ├── IAM-roles.png         # IAM permissions setup  
+│   ├── S3-bucket.png         # Storage layer  
+│   └── SNS-alert.png         # Alerting system  
+│
+├── README.md   # Project documentation (architecture, setup, flow)
+├── License    # MIT license file
+├── CloudGuard360.png  # Root-level architecture image (quick preview)
+├── Dashboard.png  # Dashboard preview image  
+├── ai-forecasting.png    # Forecasting output sample
+└── charts.png  # Cost visualization sample  
+```
 ## 🏗️ System Architecture (Single Source of Truth) :
 ![CloudGuard360 Architecture](CloudGuard360.png)
 
